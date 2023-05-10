@@ -53,7 +53,7 @@ jobs:
         
     # 서버에서 Docker 이미지 실행
     - name: EC2 Docker Run
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v0.1.8
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.DOCKER_USERNAME }}
@@ -61,8 +61,5 @@ jobs:
         port: 22
         script: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/sodam-dadam-server:latest
-          docker stop $(docker ps -a -q)
-          docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/sodam-dadam-server:latest
-          docker rm $(docker ps --filter 'status=exited' -a -q)
-          docker image prune -a -f
+
 
