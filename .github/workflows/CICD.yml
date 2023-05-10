@@ -60,5 +60,5 @@ jobs:
         key: ${{ secrets.EC2_PEM_KEY }}
         port: 22
         script: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/sodam-dadam-server:latest
+          whoami
 
