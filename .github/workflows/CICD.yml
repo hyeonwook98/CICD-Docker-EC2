@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Spring Boot & Gradle & Docker & EC2 CD
+name: Spring Boot & Gradle & Docker & EC2 CICD
 
 on:
   push:
@@ -28,17 +28,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-        
-    # 그래들 캐싱
-    - name: Gradle Caching
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
           
     # gradle build
     - name: Build with Gradle
@@ -56,7 +45,7 @@ jobs:
       uses: appleboy/ssh-action@v0.1.9
       with:
         host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.DOCKER_USERNAME }}
+        username: sodam-dadam
         key: ${{ secrets.EC2_PEM_KEY }}
         port: 22
         script: |
