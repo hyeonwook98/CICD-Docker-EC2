@@ -45,9 +45,13 @@ jobs:
       uses: appleboy/ssh-action@v0.1.9
       with:
         host: ${{ secrets.EC2_HOST }}
-        username: sodam-dadam
+        username: ec2-user
         key: ${{ secrets.EC2_PEM_KEY }}
         port: 22
         script: |
-          whoami
+          docker pull ${{ secrets.DOCKER_USERNAME }}/sodam-dadam-server:latest
+          docker stop $(docker ps -a -q)
+          docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/sodam-dadam-server:latest
+          docker rm $(docker ps --filter 'status=exited' -a -q)
+          docker image prune -a -f
 
